@@ -19,6 +19,8 @@ void CGammaControl::Update()
 			GenLUT( GC, G );
 			pOutput->SetGammaControl(&G);
 		}
+		// M.F.S. Team
+		_RELEASE(pOutput);
 	}
 }
 
