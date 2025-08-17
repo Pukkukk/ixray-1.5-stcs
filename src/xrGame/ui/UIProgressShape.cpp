@@ -16,6 +16,8 @@ CUIProgressShape::CUIProgressShape()
 	m_blend			= true;
 	m_angle_begin	= 0.0f;
 	m_angle_end		= PI_MUL_2;
+	// M.F.S. Team
+	m_stage         = 0.f;
 };
 
 CUIProgressShape::~CUIProgressShape()

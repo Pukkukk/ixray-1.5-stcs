@@ -57,11 +57,15 @@
 #include "ai_object_location.h"
 #include "xrServer_Objects_ALife_Monsters.h"
 
+// M.F.S. Team
+#include "InfoPortion.h"
+
 #include "hudmanager.h"
 
 string_path		g_last_saved_game;
 // M.F.S. Team
 int				quick_save_counter = 0;
+extern u32		last_quick;
 
 #ifdef DEBUG
 	extern float air_resistance_epsilon;
@@ -527,15 +531,19 @@ public:
 #endif
 		if (!xr_strlen(S)){
 			// M.F.S. Team
-			static u32 last_quick = 0;
-			xr_sprintf(S, "%s - quicksave %d", Core.UserName, last_quick);
+
+			if (last_quick < 1 && quick_save_counter == 0)
+				strconcat(sizeof(S), S, Core.UserName, "_", "quicksave");
+			else
+				xr_sprintf(S, "%s_quicksave_%d", Core.UserName, last_quick);
+
 			NET_Packet			net_packet;
 			net_packet.w_begin	(M_SAVE_GAME);
 			net_packet.w_stringZ(S);
 			net_packet.w_u8		(0);
 			Level().Send		(net_packet,net_flags(TRUE));
 			// M.F.S. Team
-			if (last_quick < quick_save_counter) last_quick++;
+			if (last_quick < quick_save_counter && quick_save_counter > 0) last_quick++;
 			else last_quick = 0;
 		}else{
 			if(!valid_saved_game_name(S)){
@@ -1719,8 +1727,7 @@ public:
 
 class CCC_ReceiveInfo : public IConsole_Command {
 public:
-	CCC_ReceiveInfo(LPCSTR N) : IConsole_Command(N) {
-	}
+	CCC_ReceiveInfo(LPCSTR N) : IConsole_Command(N) { };
 
 	virtual void Execute(LPCSTR info_id) override {
 		if (g_pGameLevel == nullptr) {
@@ -2266,5 +2273,5 @@ extern BOOL dbg_moving_bones_snd_player;
 	// M.F.S. Team
 	CMD4(CCC_Integer, "quick_save_counter", &quick_save_counter, 0, 25);
 
-	register_mp_console_commands					();
+	// register_mp_console_commands					();
 }

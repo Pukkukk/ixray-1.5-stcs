@@ -46,6 +46,7 @@ CExplosive::CExplosive(void)
 	m_iFragsNum				= 20;
 	m_fFragsRadius			= 30.0f;
 	m_fFragHit				= 50.0f;
+	m_fFragHitCritical		= 0.0f;
 	m_fUpThrowFactor		= 0.f;
 
 
@@ -98,8 +99,11 @@ void CExplosive::Load(CInifile *ini,LPCSTR section)
 	m_fBlastHitImpulse	= ini->r_float(section,"blast_impulse");
 
 	m_iFragsNum			= ini->r_s32(section,"frags");
+	// M.F.S. Team
+	m_iFragsNum *= 2;
 	m_fFragsRadius		= ini->r_float(section,"frags_r");
 	m_fFragHit			= ini->r_float(section,"frag_hit");
+	m_fFragHitCritical	= ini->r_float(section,"frag_hit_critical");
 	m_fFragHitImpulse	= ini->r_float(section,"frag_hit_impulse");
 
 	m_eHitTypeBlast		= ALife::g_tfString2HitType(ini->r_string(section, "hit_type_blast"));
@@ -332,6 +336,11 @@ void CExplosive::Explode()
 	OnBeforeExplosion();
 	//играем звук взрыва
 	Sound->play_at_pos(sndExplode, 0, pos, false);
+
+	// M.F.S. Team
+	CObject* who = nullptr;
+	if (Initiator() != ALife::_OBJECT_ID(-1))
+		who = Level().Objects.net_Find(Initiator());
 	
 	//показываем эффекты
 
@@ -374,6 +383,7 @@ void CExplosive::Explode()
 		CCartridge cartridge;
 		cartridge.param_s.kDist				= 1.f;
 		cartridge.param_s.kHit				= 1.f;
+		cartridge.param_s.kCritical			= 1.f;
 		cartridge.param_s.kImpulse			= 1.f;
 		cartridge.param_s.kAP				= 1.f;
 		cartridge.param_s.fWallmarkSize		= fWallmarkSize;
@@ -381,7 +391,7 @@ void CExplosive::Explode()
 		cartridge.m_flags.set				(CCartridge::cfTracer,FALSE);
 
 		Level().BulletManager().AddBullet(	pos, frag_dir, m_fFragmentSpeed,
-											m_fFragHit, m_fFragHitImpulse, Initiator(),
+											m_fFragHit, m_fFragHitCritical, m_fFragHitImpulse, Initiator(),
 											cast_game_object()->ID(), m_eHitTypeFrag, m_fFragsRadius, 
 											cartridge, SendHits );
 	}	
