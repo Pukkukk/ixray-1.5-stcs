@@ -19,6 +19,7 @@
 #include "stalker_animation_data.h"
 #include "stalker_animation_manager_impl.h"
 
+
 const u32	need_look_back_time_interval= 2000;
 
 MotionID CStalkerAnimationManager::aim_animation	(const u32 &slot, const xr_vector<CAniVector> &animation, const u32 &index) const
@@ -174,6 +175,13 @@ MotionID CStalkerAnimationManager::unknown_object_animation(u32 slot, const EBod
 MotionID CStalkerAnimationManager::weapon_animation	(u32 slot, const EBodyState &body_state)
 {
 	const xr_vector<CAniVector>		&animation = m_data_storage->m_part_animations.A[body_state].m_torso.A[slot].A;
+
+	// M.F.S. Team
+	//Alun: Fix stalker sprint
+	if (eMentalStatePanic == object().movement().mental_state() && eMovementTypeRun == object().movement().movement_type() && body_state == eBodyStateStand && !fis_zero(object().movement().speed(object().character_physics_support()->movement())))
+	{
+		return (animation[15].A[0]);
+	}
 
 	switch (m_weapon->GetState()) {
 		case CWeapon::eReload : {
