@@ -3,9 +3,10 @@
 <div align="center">
   <p>
     <a href="https://github.com/ixray-team">
-      <img src="https://github.com/Pukkukk/ixray-1.5-stcs/blob/default/logo.jpg" alt="IX-Ray Team" width="150" height="150" />
+      <img src="https://github.com/ixray-team/ixray-artwork/blob/default/res/IX-Ray/VK%20splash.png" alt="IX-Ray Team" />
     </a>
   </p>
+</div>  
 
 Репозиторий стабильной версии модифицированного движка _X-Ray_ 1.5 для «Чистое Небо».
 
@@ -33,7 +34,7 @@ https://github.com/Pukkukk/ixray-1.5-stcs.git
 
 ### Сборка:
 
-- Открыть проект с помощью файла `XRay.Engine.slnf`, выбрать желаемую конфигурацию (`Debug`, `Mixed`, `Release`) и платформу `x86` и соберите решение (`Сборка > Собрать решение (F7)`).
+- Открыть проект с помощью файла `XRay.Engine.slnf`, выбрать желаемую конфигурацию (`Debug`, `Mixed`, `Release`) и платформу `x86` и собрать решение (`Сборка > Собрать решение (F7)`).
 
 ## Лицензия
 
