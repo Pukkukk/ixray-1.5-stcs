@@ -3,53 +3,38 @@
 <div align="center">
   <p>
     <a href="https://github.com/ixray-team">
-      <img src="https://github.com/ixray-team/ixray-docs/blob/default/logo.png" alt="IX-Ray Team" width="150" height="150" />
+      <img src="https://github.com/Pukkukk/ixray-1.5-stcs/blob/default/logo.jpg" alt="IX-Ray Team" width="150" height="150" />
     </a>
   </p>
 
-  <p>
-    <a href="https://github.com/ixray-team/ixray-1.5-stcs/releases/tag/r0.6">
-      <img src="https://img.shields.io/github/v/release/ixray-team/ixray-1.5-stcs?include_prereleases&label=Release" alt="Latest release" />
-    </a>
-    <a  href="https://github.com/ixray-team/ixray-1.5-stcs/actions/workflows/build-engine.yml">
-      <img src="https://github.com/ixray-team/ixray-1.5-stcs/actions/workflows/build-engine.yml/badge.svg" alt="Build engine" />
-    </a>
-  </p>
-</div>
+Репозиторий стабильной версии модифицированного движка _X-Ray_ 1.5 для «Чистое Небо».
 
-Stable repository of the modernized _X-Ray_ 1.5 game engine
-
-## Requirements
+## Для сборки движка необходимо:
 
 - Visual Studio 2022 Community Edition
-  - MFC
-  - C++/CLI
-  - Windows SDK 10.0.19041.0+
+  - MFC v14.35 (17.5)
+  - C++/CLI V143 (14.35-17.5)
+  - Windows SDK 10.0.19041.0
 
-## Building
+Для ориентирования можно опереться на файл с личной сборкой компонентов от автора: [Открыть](my_components.md)    
 
-Download the repository:
+## Чтобы собрать, нужно:
+
+- Склонировать репозиторий локально с помощью программы Git:
 
 ```console
-git clone https://github.com/ixray-team/ixray-1.5-stcs.git
+git clone https://github.com/Pukkukk/ixray-1.5-stcs.git
+```
+- Либо в начальном окне Visual Studio 2022 нажать кнопку «Клонирование репозитория» и вставить ссылку ниже:
+
+```console
+https://github.com/Pukkukk/ixray-1.5-stcs.git
 ```
 
-### Engine
+### Сборка:
 
-- Build `XRay.Engine.slnf` on `Win32`
+- Открыть проект с помощью файла `XRay.Engine.slnf`, выбрать желаемую конфигурацию (`Debug`, `Mixed`, `Release`) и платформу `x86` и соберите решение (`Сборка > Собрать решение (F7)`).
 
-### Compressor
+## Лицензия
 
-- Build `XRay.Compressor.slnf` on `Win32`
-
-### Assets
-
-- Run `generate-patch.bat` to get packed assets
-
-## Changelog
-
-All significant changes to this repository are documented in [this](CHANGELOG.md) file
-
-## License
-
-See [this](LICENSE.md) file for details
+Просмотрите [данный](LICENSE.md) файл.
