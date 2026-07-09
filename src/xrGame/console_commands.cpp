@@ -77,6 +77,7 @@ extern void release_smart_cast_stats	();
 
 extern	u64		g_qwStartGameTime;
 extern	u64		g_qwEStartGameTime;
+extern 	int 	hud_adj_mode;
 
 ENGINE_API
 extern	float	psHUD_FOV_def;
@@ -1887,7 +1888,8 @@ void CCC_RegisterCommands()
 	CMD1(CCC_GiveMoney, "g_money");
 
 	CMD1(CCC_GSpawn, "g_spawn");
-	CMD1(CCC_GSpawnToInventory, "g_spawn_inv");
+	CMD1(CCC_GSpawnToInventory, "g_spawn_to_inventory");
+	CMD4(CCC_Integer,		"hud_adjust_mode", &hud_adj_mode, 0, 5);
 
 	CMD1(CCC_MemStats,			"stat_memory"			);
 	// game
