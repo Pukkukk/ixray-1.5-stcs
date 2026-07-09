@@ -32,7 +32,7 @@ git clone https://github.com/Pukkukk/ixray-1.5-stcs.git
 https://github.com/Pukkukk/ixray-1.5-stcs.git
 ```
 
-### Сборка:
+## Сборка:
 
 - Открыть проект с помощью файла `XRay.Engine.slnf`;
 - Выбрать желаемую конфигурацию (`Debug`, `Mixed`, `Release`) и платформу `x86`;
