@@ -37,10 +37,14 @@ git clone https://github.com/ixray-team/ixray-1.5-stcs.git
 ### Engine
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 - Build `XRay.Engine.slnf` on `Win32`
 =======
 - Открыть проект с помощью файла `XRay.Engine.slnf`, выбрать желаемую конфигурацию (`Debug`, `Mixed`, `Release`) и платформу `x86` и собрать решение (`Сборка > Собрать решение (F7)`).
 >>>>>>> parent of dc7b4613 (РћР±РЅРѕРІР»РµРЅРёРµ README.md)
+=======
+- Build `XRay.Engine.slnf` on `Win32`
+>>>>>>> parent of f6d3e5ca (РћР±РЅРѕРІР»РµРЅРёРµ README.md)
 
 ### Compressor
 
