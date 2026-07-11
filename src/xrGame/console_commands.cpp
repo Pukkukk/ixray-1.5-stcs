@@ -62,6 +62,15 @@
 
 #include "hudmanager.h"
 
+// M.F.S. Crosshair Type
+extern u32	crosshair_type;
+xr_token							crosshair_type_token[] = {
+	{ "default_crosshair",			1												},
+	{ "builds_crosshair",			2												},
+	{ "point_crosshair",			3												},
+	{ 0,							0												}
+};
+
 string_path		g_last_saved_game;
 // M.F.S. Team
 int				quick_save_counter = 0;
@@ -2274,6 +2283,8 @@ extern BOOL dbg_moving_bones_snd_player;
 
 	// M.F.S. Team
 	CMD4(CCC_Integer, "quick_save_counter", &quick_save_counter, 0, 25);
+	//M.F.S. Crosshair Type
+	CMD3(CCC_Token,		"g_crosshair_type",			&crosshair_type, crosshair_type_token);
 
 	// register_mp_console_commands					();
 }

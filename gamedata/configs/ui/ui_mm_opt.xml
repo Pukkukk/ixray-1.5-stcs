@@ -124,6 +124,9 @@
 		</cap_gamma>
 		<track_gamma x="194" y="100" width="261" height="21">
 			<options_item entry="rs_c_gamma" group="mm_opt_video"/>
+		<output_wnd x="-30" y="0" width="20" height="20" format="%.1f">
+		    <text r="170" g="170" b="170" font="letterica16" align="r" vert_align="c">0</text>
+	    </output_wnd>
 		</track_gamma>
 
 		<cap_contrast x="20" y="130" width="143" height="21">
@@ -131,6 +134,9 @@
 		</cap_contrast>
 		<track_contrast x="194" y="130" width="261" height="21">
 			<options_item entry="rs_c_contrast" group="mm_opt_video"/>
+		<output_wnd x="-30" y="0" width="20" height="20" format="%.1f">
+		    <text r="170" g="170" b="170" font="letterica16" align="r" vert_align="c">0</text>
+	    </output_wnd>	
 		</track_contrast>
 
 		<cap_brightness x="20" y="160" width="143" height="21">
@@ -138,6 +144,9 @@
 		</cap_brightness>
 		<track_brightness x="194" y="160" width="261" height="21">
 			<options_item entry="rs_c_brightness" group="mm_opt_video"/>
+		<output_wnd x="-30" y="0" width="20" height="20" format="%.1f">
+		    <text r="170" g="170" b="170" font="letterica16" align="r" vert_align="c">0</text>
+	    </output_wnd>	
 		</track_brightness>
 
 		<cap_fullscreen x="20" y="190" width="143" height="21">
@@ -356,6 +365,9 @@
 		</cap_vis_dist>
 		<track_vis_dist x="194" y="0" width="245" height="21" step="0.1">
 			<options_item entry="rs_vis_distance" group="mm_opt_video_adv"/>
+	    <output_wnd x="-30" y="0" width="20" height="20" format="%.1f">
+		    <text r="170" g="170" b="170" font="letterica16" align="r" vert_align="c">0</text>
+	    </output_wnd>
 		</track_vis_dist>
 		
 		<cap_geometry_lod x="20" y="0" width="143" height="21">
@@ -363,6 +375,9 @@
 		</cap_geometry_lod>
 		<track_geometry_lod x="194" y="0" width="245" height="21" step="0.1">
 			<options_item entry="r__geometry_lod" group="mm_opt_video_adv"/>
+	   <output_wnd x="-30" y="0" width="20" height="20" format="%.1f">
+		<text r="170" g="170" b="170" font="letterica16" align="r" vert_align="c">0</text>
+	   </output_wnd>	  
 		</track_geometry_lod>
 		
 		<cap_detail_density x="20" y="0" width="143" height="21">
@@ -370,6 +385,9 @@
 		</cap_detail_density>
 		<track_detail_density x="194" y="0" width="245" height="21" invert="1" step="0.02">
 			<options_item entry="r__detail_density" group="mm_opt_video_adv"/>
+		<output_wnd x="-30" y="1" width="20" height="20" format="%.1f">
+			<text r="170" g="170" b="170" font="letterica16" align="r" vert_align="c">0</text>
+		</output_wnd>
 		</track_detail_density>
 
 		<cap_texture_lod x="20" y="0" width="143" height="21" >
@@ -377,6 +395,9 @@
 		</cap_texture_lod>
 		<track_texture_lod x="194" y="0" width="245" height="21" invert="1" step="1" is_integer="1">
 			<options_item entry="texture_lod" group="mm_opt_video_adv" depend="vid"/>
+	    <output_wnd x="-30" y="0" width="20" height="20" format="%d">
+			<text r="170" g="170" b="170" font="letterica16" align="r" vert_align="c">0</text>
+		</output_wnd>
 		</track_texture_lod>
 	
 		<cap_aniso x="20" y="0" width="143" height="21">
@@ -384,6 +405,9 @@
 		</cap_aniso>
 		<track_aniso x="194" y="0" width="245" height="21" step="1" is_integer="1">
 			<options_item entry="r__tf_aniso" group="mm_opt_video_adv"/>
+	    <output_wnd x="-30" y="0" width="20" height="20" format="%d">
+			<text r="170" g="170" b="170" font="letterica16" align="r" vert_align="c">0</text>
+		</output_wnd>
 		</track_aniso>
 		
 		<cap_ssample x="20" y="0" width="143" height="21">
@@ -391,6 +415,9 @@
 		</cap_ssample>
 		<track_ssample x="194" y="0" width="245" height="21" step="1" is_integer="1">
 			<options_item entry="r__supersample" group="mm_opt_video_adv" depend="vid"/>
+	  	    <output_wnd x="-30" y="0" width="20" height="20" format="%d">
+			<text r="170" g="170" b="170" font="letterica16" align="r" vert_align="c">0</text>
+		    </output_wnd>
 		</track_ssample>
     <combo_ssample x="194" y="0" width="245" height="21" list_length="4" always_show_scroll="0">
       <options_item entry="r3_msaa" group="mm_opt_video_adv" depend="vid"/>
@@ -463,6 +490,9 @@
 		</cap_light_distance>
 		<track_light_distance x="194" y="0" width="245" height="21">
 			<options_item entry="r2_slight_fade" group="mm_opt_video_adv"/>
+	    <output_wnd x="-30" y="0" width="20" height="20" format="%.1f">
+			<text r="170" g="170" b="170" font="letterica16" align="r" vert_align="c">0</text>
+		</output_wnd>	  
 		</track_light_distance>
 		
 		<cap_npc_torch x="20" y="0" width="143" height="21">
@@ -477,6 +507,9 @@
 		</cap_particles_distance>
 		<track_particles_distance x="194" y="0" width="245" height="21" step="0.1">
 			<options_item entry="r2_ls_squality" group="mm_opt_video_adv"/>
+	    <output_wnd x="-30" y="0" width="20" height="20" format="%.1f">
+			<text r="170" g="170" b="170" font="letterica16" align="r" vert_align="c">0</text>
+		</output_wnd>
 		</track_particles_distance>
 		
 		<cap_vsync x="20" y="0" width="143" height="21">
@@ -574,9 +607,6 @@
 			<texture>ui_button_ordinary</texture>			
 		</btn_to_simply>
 	
-
-
-
 </video_adv>
 
 	<tab_sound>
@@ -599,9 +629,15 @@
 
     <track_mastervolume x="194" y="20" width="261" height="21">
 			<options_item entry="snd_volume_eff" group="mm_opt_sound"/>
+	        <output_wnd x="-30" y="0" width="20" height="20" format="%.1f">
+			    <text r="170" g="170" b="170" font="letterica16" align="r" vert_align="c">0</text>
+	        </output_wnd>
 		</track_mastervolume>
 		<track_musicvolume x="194" y="50" width="261" height="21">
 			<options_item entry="snd_volume_music" group="mm_opt_sound"/>
+		    <output_wnd x="-30" y="0" width="20" height="20" format="%.1f">
+			    <text r="170" g="170" b="170" font="letterica16" align="r" vert_align="c">0</text>
+		    </output_wnd>
 		</track_musicvolume>
 
     <cap_snd_device x="20" y="80" width="143" height="21">
@@ -680,6 +716,9 @@
 	
 		<track_mousesens x="194" y="20" width="261" height="21" step="0.01">
 			<options_item entry="mouse_sens" group="mm_opt_controls"/>
+			<output_wnd x="-30" y="0" width="20" height="20" format="%.1f">
+			    <text r="170" g="170" b="170" font="letterica16" align="r" vert_align="c">0</text>
+	        </output_wnd>
 		</track_mousesens>
 		<check_mouseinvert x="20" y="55" width="30" height="21">
 			<options_item entry="mouse_invert" group="mm_opt_controls"/>

@@ -14,20 +14,18 @@
 #include "profiler.h"
 #include "stalker_movement_manager_smart_cover.h"
 
-void CStalkerAnimationManager::play_delayed_callbacks()
+void CStalkerAnimationManager::play_delayed_callbacks	()
 {
-	if (m_call_script_callback)
-	{
-		m_call_script_callback = false;
-		object().callback(GameObject::eScriptAnimation)	();
+	if (m_call_script_callback) {
+		m_call_script_callback	= false;
+		object().callback		(GameObject::eScriptAnimation)	();
 		return;
 	}
 
-	if (m_call_global_callback)
-	{
-		m_call_global_callback = false;
+	if (m_call_global_callback) {
+		m_call_global_callback	= false;
 		if (m_global_callback)
-			m_global_callback();
+			m_global_callback	();
 		return;
 	}
 }
@@ -243,18 +241,9 @@ void CStalkerAnimationManager::update						()
 	try {
 		update_impl			();
 	}
-	catch (...)
-	{
-		Msg("! error in stalker with visual %s", *object().cNameVisual());
-		// M.F.S. Team
-		/* avo: prevent game from crashing */
-		global().reset();
-		head().reset();
-		torso().reset();
-		legs().reset();
-		return;
-		//throw;
-		/* avo: end */
+	catch(...) {
+		Msg					("! error in stalker with visual %s",*object().cNameVisual());
+		throw;
 	}
 	STOP_PROFILE
 }

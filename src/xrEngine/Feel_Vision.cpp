@@ -5,12 +5,16 @@
 #include "xr_collide_form.h"
 #include "igame_level.h"
 #include "cl_intersect.h"
+#include "x_ray.h"
 
 namespace Feel {
 
-	Vision::Vision():pure_relcase(&Vision::feel_vision_relcase)
+	Vision::Vision(CObject const* owner) :
+		pure_relcase(&Vision::feel_vision_relcase),
+		m_owner(owner)
 	{	
 	}
+
 	Vision::~Vision()
 	{	
 	}
@@ -185,7 +189,7 @@ namespace Feel {
 			if (f>fuzzy_guaranteed){
 				D.div						(f);
 				// setup ray defs & feel params
-				collide::ray_defs RD		(P,D,f,CDB::OPT_CULL,collide::rq_target(collide::rqtStatic|collide::rqtObstacle));
+				collide::ray_defs RD(P, D, f, CDB::OPT_CULL, collide::rq_target(collide::rqtStatic |collide::rqtObject |collide::rqtObstacle));
 				SFeelParam	feel_params		(this,&*I,vis_threshold);
 				// check cache
 				if (I->Cache.result&&I->Cache.similar(P,D,f)){

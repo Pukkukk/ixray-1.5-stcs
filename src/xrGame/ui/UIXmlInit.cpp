@@ -155,6 +155,9 @@ bool CUIXmlInit::InitOptionsItem(CUIXml& xml_doc, LPCSTR path, int index, CUIOpt
 			if(0==_stricmp(depends,"restart"))
 				d = CUIOptionsItem::sdSystemRestart;
 			else
+				if (0 == stricmp(depends, "runtime"))
+				d = CUIOptionsItem::sdApplyOnChange;
+			else
 				Msg("! unknown param [%s] in optionsItem [%s]", depends, entry.c_str());
 
 			pWnd->SetSystemDepends		(d);
@@ -1392,7 +1395,39 @@ bool CUIXmlInit::InitTrackBar(CUIXml& xml_doc, const char* path, int index, CUIT
 	pWnd->SetInvert		(!!invert);
 	float step			= xml_doc.ReadAttribFlt(path, index, "step", 0.1f);
 	pWnd->SetStep		(step);
-	
+
+	bool is_float = !is_integer;
+	if (is_float)
+	{
+		float fmin = xml_doc.ReadAttribFlt(path, index, "min", 0.0f);
+		float fmax = xml_doc.ReadAttribFlt(path, index, "max", 0.0f);
+
+		if (fmin != fmax)
+		{
+			pWnd->SetOptFBounds(fmin, fmax);
+			pWnd->SetBoundReady(true);
+		}
+	}
+	else
+	{
+		int imin = xml_doc.ReadAttribInt(path, index, "min", 0);
+		int imax = xml_doc.ReadAttribInt(path, index, "max", 0);
+
+		if (imin != imax)
+		{
+			pWnd->SetOptIBounds(imin, imax);
+			pWnd->SetBoundReady(true);
+		}
+	}
+
+	string512 buf;
+	strconcat(sizeof(buf), buf, path, ":output_wnd");
+	if (xml_doc.NavigateToNode(buf, index))
+	{
+		InitStatic(xml_doc, buf, index, pWnd->m_static);
+		pWnd->m_static_format = xml_doc.ReadAttrib(buf, index, "format", NULL);
+		pWnd->m_static->Enable(true);
+	}
 
 	return				true;
 }

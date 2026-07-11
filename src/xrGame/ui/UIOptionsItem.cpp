@@ -97,6 +97,8 @@ void CUIOptionsItem::SaveOptTokenValue(LPCSTR val)
 
 void CUIOptionsItem::SaveValue()
 {
+	if (!IsChanged())
+		return;
 	if(m_dep==sdVidRestart)
 		m_optionsManager.DoVidRestart();
 	else

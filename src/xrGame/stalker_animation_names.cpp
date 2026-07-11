@@ -47,16 +47,12 @@ LPCSTR weapon_action_names	[] = {
 	"unstrap_",			// 12
 	"look_beack_ls_",	// 13
 	"look_beack_rs_",	// 14
-	// M.F.S. Team
-	"escape_",			// 15 Alun sprint fix
 	0
 };
 
 LPCSTR movement_names		[] = {
 	"walk_",
 	"run_",
-	// M.F.S. Team
-	"escape_",			//2 Alun sprint fix
 	0
 };
 
@@ -65,8 +61,6 @@ LPCSTR movement_action_names[] = {
 	"back_",
 	"ls_",
 	"rs_",
-	// M.F.S. Team
-	"0",				//4 Alun sprint fix
 	0
 };
 

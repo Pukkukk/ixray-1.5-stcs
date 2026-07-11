@@ -9,6 +9,7 @@ struct SCartridgeParam
 	float	impair;
 	float	fWallmarkSize;
 	u8		u8ColorID;
+	float	kCritical; // Добавлено для устранения ошибки
 
 	IC void Init()
 	{
@@ -19,6 +20,7 @@ struct SCartridgeParam
 		impair    = 1.0f;
 		fWallmarkSize = 0.0f;
 		u8ColorID     = 0;
+		kCritical     = 0.0f; // Инициализация нового члена
 	}
 };
 
