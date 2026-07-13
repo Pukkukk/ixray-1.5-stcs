@@ -18,6 +18,7 @@
 
 #define VIEWPORT_NEAR  0.2f
 #define HUD_VIEWPORT_NEAR  0.02f
+extern ENGINE_API int psSVPFrameDelay;
 
 #define DEVICE_RESET_PRECACHE_FRAME_COUNT 10
 
@@ -154,6 +155,8 @@ public:
 	void Clear								();
 	void End								();
 	void FrameMove							();
+
+	bool bMainMenuActive					();
 	
 	void overdrawBegin						();
 	void overdrawEnd						();
@@ -239,3 +242,5 @@ extern	ENGINE_API xr_list<LOADING_EVENT>		g_loading_events;
 //#include	"R_Backend_Runtime.h"
 
 #endif
+
+extern ENGINE_API float fps_limit;

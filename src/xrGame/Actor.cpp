@@ -1,4 +1,4 @@
-#include "pch_script.h"
+	#include "pch_script.h"
 #include "Actor_Flags.h"
 #include "hudmanager.h"
 #ifdef DEBUG
@@ -91,6 +91,9 @@ static Fvector	vFootCenter;
 static Fvector	vFootExt;
 
 Flags32			psActorFlags={/*AF_DYNAMIC_MUSIC|*/AF_GODMODE_RT};
+
+int				psActorQuickSaveNumberCurrent = 0;
+int				psActorQuickSaveNumberMax = 5;
 
 
 

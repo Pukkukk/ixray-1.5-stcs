@@ -26,6 +26,7 @@ using namespace DirectX;
 #	include "engine_impl.hpp"
 #endif // #ifdef INGAME_EDITOR
 
+
 #include "igame_persistent.h"
 
 ENGINE_API CRenderDevice Device;
@@ -219,6 +220,11 @@ int g_svDedicateServerUpdateReate = 100;
 
 ENGINE_API xr_list<LOADING_EVENT>			g_loading_events;
 
+bool CRenderDevice::bMainMenuActive()
+{
+	return  g_pGamePersistent && g_pGamePersistent->m_pMainMenu && g_pGamePersistent->m_pMainMenu->IsActive();
+}
+
 void CRenderDevice::on_idle		()
 {
 	if (!b_is_Ready) {
@@ -226,6 +232,7 @@ void CRenderDevice::on_idle		()
 		return;
 	}
 
+	const u64 frameStartTime = TimerGlobal.GetElapsed_ms();
 	u32 FrameStartTime = TimerGlobal.GetElapsed_ms();
 
 	if (psDeviceFlags.test(rsStatistic))	g_bEnableStatGather	= TRUE;
@@ -294,6 +301,24 @@ void CRenderDevice::on_idle		()
 	// *** Suspend threads
 	// Capture startup point
 	// Release end point - allow thread to wait for startup point
+
+	const u64 frameEndTime = TimerGlobal.GetElapsed_ms();
+	const u64 frameTime = frameEndTime - frameStartTime;
+
+	float fps_to_rate = (fps_limit == 900) ? 0 : (1000.f / fps_limit);
+	u32 updateDelta = 1; // 1 ms
+
+	if (Device.Paused() || bMainMenuActive())
+		updateDelta = 2; // 16 ms, ~60 FPS max while paused
+	else
+		updateDelta = fps_to_rate;
+
+	if (fps_to_rate != 0)
+	{
+		if (frameTime < updateDelta)
+			Sleep(((DWORD)(updateDelta - frameTime)));
+	}
+
 	mt_csEnter.Enter						();
 	mt_csLeave.Leave						();
 
