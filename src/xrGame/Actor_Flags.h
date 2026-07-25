@@ -17,3 +17,5 @@ extern Flags32 psActorFlags;
 
 extern BOOL		GodMode	();	
 
+extern int		psActorQuickSaveNumberCurrent;
+extern int		psActorQuickSaveNumberMax;

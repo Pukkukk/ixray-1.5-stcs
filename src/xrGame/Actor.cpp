@@ -92,7 +92,8 @@ static Fvector	vFootExt;
 
 Flags32			psActorFlags={/*AF_DYNAMIC_MUSIC|*/AF_GODMODE_RT};
 
-
+int				psActorQuickSaveNumberCurrent = 0;
+int				psActorQuickSaveNumberMax = 5;
 
 CActor::CActor() : CEntityAlive()
 {
