@@ -643,6 +643,8 @@ public		:
 
 ENGINE_API float psHUD_FOV_def = 0.45f;
 ENGINE_API float psHUD_FOV = psHUD_FOV_def;
+ENGINE_API int		psSVPFrameDelay = 1;
+ENGINE_API float	fps_limit = 500.0f;
 
 //extern int			psSkeletonUpdate;
 extern int			rsDVB_Size;
@@ -742,6 +744,9 @@ void CCC_Register()
 #endif // DEBUG
 
 	CMD1(CCC_VID_Reset, "vid_restart"			);
+
+	CMD4(CCC_Float,		"rs_fps_limit",			&fps_limit,			10.f, 500.f				);
+	// CMD4(CCC_Integer,	"svp_frame_delay",		&psSVPFrameDelay,	1, 3					);
 	
 	// Sound
 	CMD2(CCC_Float,		"snd_volume_eff",		&psSoundVEffects);
