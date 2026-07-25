@@ -17,6 +17,7 @@ void CTraderAnimation::reinit() {
 
 	m_anim_global				= 0;
 	m_anim_head					= 0;
+	m_head						= smart_cast<IKinematics*>(m_trader->Visual())->LL_BoneID("bip01_head");
 }
 
 
@@ -68,7 +69,7 @@ void CTraderAnimation::set_sound(LPCSTR sound, LPCSTR anim)
 
 	m_sound				= xr_new<ref_sound>();
 	m_sound->create		(sound,st_Effect,SOUND_TYPE_WORLD);
-	m_sound->play		(NULL, sm_2D);
+	m_sound->play		(m_trader);
 }
 
 void CTraderAnimation::remove_sound()
@@ -87,10 +88,17 @@ void CTraderAnimation::remove_sound()
 //////////////////////////////////////////////////////////////////////////
 void CTraderAnimation::update_frame()
 {
-	if (m_sound && !m_sound->_feedback()) {
-		m_trader->callback	(GameObject::eTraderSoundEnd)();
-		remove_sound		();
+	if (m_sound)
+	{
+		if (m_sound->_feedback())
+			m_sound->set_position(sound_position());
+		else
+		{
+			m_trader->callback(GameObject::eTraderSoundEnd)();
+			remove_sound();
+		}
 	}
+
 
 	
 	if (!m_motion_global) {
@@ -115,7 +123,8 @@ void CTraderAnimation::external_sound_start(LPCSTR phrase)
 	
 	m_sound					= xr_new<ref_sound>();
 	m_sound->create			(phrase,st_Effect,SOUND_TYPE_WORLD);
-	m_sound->play			(NULL, sm_2D);
+	m_sound->play			(m_trader);
+	m_sound->set_position	(sound_position());
 
 	m_motion_head.invalidate();
 }
@@ -123,6 +132,16 @@ void CTraderAnimation::external_sound_start(LPCSTR phrase)
 void CTraderAnimation::external_sound_stop()
 {
 	if (m_sound)			remove_sound();	
+}
+
+Fvector CTraderAnimation::sound_position()
+{
+	IKinematics* kinematics = smart_cast<IKinematics*>(m_trader->Visual());
+
+	Fmatrix l_tMatrix;
+	l_tMatrix.mul_43(m_trader->XFORM(), kinematics->LL_GetBoneInstance(m_head).mTransform);
+
+	return l_tMatrix.c;
 }
 //////////////////////////////////////////////////////////////////////////
 
