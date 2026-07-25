@@ -39,7 +39,7 @@
 bool g_bDisableAllInput = false;
 extern	float	g_fTimeFactor;
 // M.F.S. Team
-//u32	last_quick = 0;
+u32	last_quick = 0;
 
 #define CURRENT_ENTITY()	(game?((GameID() == eGameIDSingle) ? CurrentEntity() : CurrentControlEntity()):NULL)
 
@@ -161,12 +161,12 @@ void CLevel::IR_OnKeyboardPress	(int key)
 
 	if ( game && Game().IR_OnKeyboardPress(key) )	return;
 
-	if (_curr == kQUICK_SAVE)
+	if(_curr == kQUICK_SAVE && IsGameTypeSingle())
 	{
 		Console->Execute			("save");
 		return;
 	}
-	else if (_curr == kQUICK_LOAD)
+	if(_curr == kQUICK_LOAD && IsGameTypeSingle())
 	{
 #ifdef DEBUG
 		FS.get_path					("$game_config$")->m_Flags.set(FS_Path::flNeedRescan, TRUE);
@@ -177,10 +177,10 @@ void CLevel::IR_OnKeyboardPress	(int key)
 		// M.F.S. Team
 
 
-		if (psActorQuickSaveNumberMax <= 1)
+		if (last_quick < 1)
 			strconcat(sizeof(saved_game), saved_game, Core.UserName, "_", "quicksave");
 		else
-			xr_sprintf(saved_game, "%s_quicksave_%d", Core.UserName, psActorQuickSaveNumberCurrent);
+			xr_sprintf(saved_game, "%s_quicksave_%d", Core.UserName, last_quick - 1);
 
 
 		if (!CSavedGameWrapper::valid_saved_game(saved_game))

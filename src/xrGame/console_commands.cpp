@@ -73,8 +73,8 @@ xr_token							crosshair_type_token[] = {
 
 string_path		g_last_saved_game;
 // M.F.S. Team
-//int				quick_save_counter = 0;
-//extern u32		last_quick;
+int				quick_save_counter = 0;
+extern u32		last_quick;
 
 #ifdef DEBUG
 	extern float air_resistance_epsilon;
@@ -542,25 +542,19 @@ public:
 		if (!xr_strlen(S)){
 			// M.F.S. Team
 
-if (!xr_strlen(S))
-		{
-			if (psActorQuickSaveNumberCurrent >= psActorQuickSaveNumberMax || psActorQuickSaveNumberCurrent < 1 )
-				psActorQuickSaveNumberCurrent = 1;
-			else
-				++psActorQuickSaveNumberCurrent;
-			
-			if (psActorQuickSaveNumberMax <= 1)
+			if (last_quick < 1 && quick_save_counter == 0)
 				strconcat(sizeof(S), S, Core.UserName, "_", "quicksave");
 			else
-				xr_sprintf(S, "%s_quicksave_%d", Core.UserName, psActorQuickSaveNumberCurrent);
+				xr_sprintf(S, "%s_quicksave_%d", Core.UserName, last_quick);
 
 			NET_Packet			net_packet;
 			net_packet.w_begin	(M_SAVE_GAME);
 			net_packet.w_stringZ(S);
 			net_packet.w_u8		(0);
 			Level().Send		(net_packet,net_flags(TRUE));
-			//if (last_quick < quick_save_counter && quick_save_counter > 0) last_quick++;
-			//else last_quick = 0;
+			// M.F.S. Team
+			if (last_quick < quick_save_counter && quick_save_counter > 0) last_quick++;
+			else last_quick = 0;
 		}else{
 			if(!valid_saved_game_name(S)){
 				Msg("! Save failed: invalid file name - %s", S);
@@ -573,7 +567,6 @@ if (!xr_strlen(S))
 			net_packet.w_u8		(1);
 			Level().Send		(net_packet,net_flags(TRUE));
 		}
-}
 #ifdef DEBUG
 		Msg						("Game save overhead  : %f milliseconds",timer.GetElapsed_sec()*1000.f);
 #endif
@@ -2289,8 +2282,7 @@ extern BOOL dbg_moving_bones_snd_player;
 	*g_last_saved_game	= 0;
 
 	// M.F.S. Team
-	CMD4(CCC_Integer,	"quick_save_counter_current",	&psActorQuickSaveNumberCurrent,	0, 25);
-	CMD4(CCC_Integer,	"quick_save_counter_max",		&psActorQuickSaveNumberMax, 1, 25);
+	CMD4(CCC_Integer, "quick_save_counter", &quick_save_counter, 0, 25);
 	//M.F.S. Crosshair Type
 	CMD3(CCC_Token,		"g_crosshair_type",			&crosshair_type, crosshair_type_token);
 

@@ -27,12 +27,6 @@ void CPPEffectorControllerAura::switch_off()
 	m_time_state_started	= Device.dwTimeGlobal;
 }
 
-void CPPEffectorControllerAura::terminate()
-{
-	if (m_snd_left._feedback()) m_snd_left.stop();
-	if (m_snd_right._feedback()) m_snd_right.stop();
-}
-
 
 BOOL CPPEffectorControllerAura::update()
 {
@@ -172,15 +166,6 @@ void CControllerAura::update_frame()
 }
 
 void CControllerAura::on_death()
-{
-	if (active()) {
-		m_effector->switch_off	();
-		m_effector				= 0;
-		m_hit_state				= eNone;
-	}
-}
-
-void CControllerAura::on_destroy()
 {
 	if (active()) {
 		m_effector->switch_off	();
