@@ -164,7 +164,7 @@ SVS*	CResourceManager::_CreateVS		(LPCSTR _name)
 		if (!fs)
 		{
 			string1024			tmp;
-			sprintf				(tmp, "DX10: %s is missing. Replace with stub_default.vs", cname);
+			sprintf				(tmp, "! [DX10]: %s is missing. Replace with stub_default.vs", cname);
 			Msg					(tmp);
 			strconcat					(sizeof(cname), cname,::Render->getShaderPath(),"stub_default",".vs");
 			FS.update_path				(cname,	"$game_shaders$", cname);
@@ -379,10 +379,7 @@ SPS*	CResourceManager::_CreatePS			(LPCSTR _name)
 		if (FAILED(_hr))
 			Msg			("Can't compile shader %s",_name);
 
-		CHECK_OR_EXIT		(
-			!FAILED(_hr),
-			make_string("Your video card doesn't meet game requirements\n\nPixel Shaders v1.1 or higher required")
-			);
+			R_ASSERT2(SUCCEEDED(_hr), "Your video card doesn't meet game requirements\n\nPixel Shaders v1.1 or higher required");
 		return			_ps;
 	}
 }
