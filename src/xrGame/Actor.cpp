@@ -348,8 +348,7 @@ void CActor::Load	(LPCSTR section )
 	m_vMissileOffset			= pSettings->r_fvector3(section,"missile_throw_offset");
 
 
-if(!g_dedicated_server)
-{
+
 	LPCSTR hit_snd_sect = pSettings->r_string(section,"hit_sounds");
 	for(int hit_type=0; hit_type<(int)ALife::eHitTypeMax; ++hit_type)
 	{
@@ -374,7 +373,6 @@ if(!g_dedicated_server)
 		m_BloodSnd.create		(pSettings->r_string(section,"heavy_blood_snd"), st_Effect,SOUND_TYPE_MONSTER_INJURING);
 		m_DangerSnd.create		(pSettings->r_string(section,"heavy_danger_snd"), st_Effect,SOUND_TYPE_MONSTER_INJURING);
 	}
-}
 	if( psActorFlags.test(AF_PSP) )
 		cam_Set					(eacLookAt);
 	else
@@ -404,7 +402,6 @@ if(!g_dedicated_server)
 	m_AutoPickUp_AABB				= READ_IF_EXISTS(pSettings,r_fvector3,section,"AutoPickUp_AABB",Fvector().set(0.02f, 0.02f, 0.02f));
 	m_AutoPickUp_AABB_Offset		= READ_IF_EXISTS(pSettings,r_fvector3,section,"AutoPickUp_AABB_offs",Fvector().set(0, 0, 0));
 
-	CStringTable string_table;
 	m_sCharacterUseAction			= "character_use";
 	m_sDeadCharacterUseAction		= "dead_character_use";
 	m_sDeadCharacterUseOrDragAction	= "dead_character_use_or_drag";
@@ -1217,7 +1214,7 @@ void CActor::shedule_Update	(u32 DT)
 	//что актер видит перед собой
 	collide::rq_result& RQ				= HUD().GetCurrentRayQuery();
 	
-
+// Отсюда убрать текст перед тестом релизной версии
 	if(!input_external_handler_installed() && RQ.O && RQ.O->getVisible() &&  RQ.range<2.0f) 
 	{
 		m_pObjectWeLookingAt			= smart_cast<CGameObject*>(RQ.O);
@@ -1270,6 +1267,73 @@ void CActor::shedule_Update	(u32 DT)
 		m_pVehicleWeLookingAt	= NULL;
 		m_pInvBoxWeLookingAt	= NULL;
 	}
+	
+#ifdef DEBUG_SCHEDULER // убрать код выше и потом убрать дефайн отсюда
+if (inventory().m_pTarget && inventory().m_pTarget->object().getDestroy())
+	{
+		m_pObjectWeLookingAt = nullptr;
+		m_pUsableObject = nullptr;
+		m_pInvBoxWeLookingAt = nullptr;
+		inventory().m_pTarget = nullptr;
+		m_pPersonWeLookingAt = nullptr;
+		m_pVehicleWeLookingAt = nullptr;
+
+		m_sDefaultObjAction = nullptr;
+	}
+
+	if (!input_external_handler_installed() && RQ.O && RQ.range < inventory().GetTakeDist())
+	{
+		m_pObjectWeLookingAt = smart_cast<CGameObject*>(RQ.O);
+
+		m_pUsableObject = smart_cast<CUsableScriptObject*>(m_pObjectWeLookingAt);
+		m_pInvBoxWeLookingAt = smart_cast<CInventoryBox*>(m_pObjectWeLookingAt);
+		inventory().m_pTarget = smart_cast<PIItem>(m_pObjectWeLookingAt);
+		m_pPersonWeLookingAt = smart_cast<CInventoryOwner*>(m_pObjectWeLookingAt);
+		m_pVehicleWeLookingAt = smart_cast<CHolderCustom*>(m_pObjectWeLookingAt);
+		CEntityAlive* pEntityAlive = smart_cast<CEntityAlive*>(m_pObjectWeLookingAt);
+
+		if (m_pUsableObject && m_pUsableObject->tip_text())
+			m_sDefaultObjAction = CStringTable().translate(m_pUsableObject->tip_text());
+		else
+		{
+			if (m_pPersonWeLookingAt && pEntityAlive->g_Alive())
+				m_sDefaultObjAction = m_sCharacterUseAction;
+
+			else if (pEntityAlive && !pEntityAlive->g_Alive())
+			{
+				bool b_allow_drag = !!pSettings->line_exist("ph_capture_visuals", pEntityAlive->cNameVisual());
+
+				if (b_allow_drag)
+					m_sDefaultObjAction = m_sDeadCharacterUseOrDragAction;
+				else
+					m_sDefaultObjAction = m_sDeadCharacterUseAction;
+
+			}
+			else if (m_pVehicleWeLookingAt)
+				m_sDefaultObjAction = m_sCarCharacterUseAction;
+
+			else if (inventory().m_pTarget && inventory().m_pTarget->CanTake())
+				//				&& (inventory().m_pTarget->object().CLS_ID != CLSID_OBJECT_G_RPG7 && inventory().m_pTarget->object().CLS_ID != CLSID_OBJECT_G_FAKE)
+				//				&& !smart_cast<const CBolt*>(game_object))
+				m_sDefaultObjAction = m_sInventoryItemUseAction;
+			//.				else if (m_pInvBoxWeLookingAt)
+			//.					m_sDefaultObjAction = m_sInventoryBoxUseAction;
+			else
+				m_sDefaultObjAction = NULL;
+		}
+	}
+	else
+	{
+		m_pObjectWeLookingAt = nullptr;
+		m_pUsableObject = nullptr;
+		m_pInvBoxWeLookingAt = nullptr;
+		inventory().m_pTarget = nullptr;
+		m_pPersonWeLookingAt = nullptr;
+		m_pVehicleWeLookingAt = nullptr;
+
+		m_sDefaultObjAction = nullptr;
+	}
+#endif
 
 //	UpdateSleep									();
 
