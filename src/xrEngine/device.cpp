@@ -219,11 +219,6 @@ int g_svDedicateServerUpdateReate = 100;
 
 ENGINE_API xr_list<LOADING_EVENT>			g_loading_events;
 
-bool CRenderDevice::bMainMenuActive()
-{
-	return  g_pGamePersistent && g_pGamePersistent->m_pMainMenu && g_pGamePersistent->m_pMainMenu->IsActive();
-}
-
 void CRenderDevice::on_idle		()
 {
 	if (!b_is_Ready) {
@@ -231,7 +226,6 @@ void CRenderDevice::on_idle		()
 		return;
 	}
 
-	const u64 frameStartTime = TimerGlobal.GetElapsed_ms();
 	u32 FrameStartTime = TimerGlobal.GetElapsed_ms();
 
 	if (psDeviceFlags.test(rsStatistic))	g_bEnableStatGather	= TRUE;
@@ -274,24 +268,6 @@ void CRenderDevice::on_idle		()
 	// *** Resume threads
 	// Capture end point - thread must run only ONE cycle
 	// Release start point - allow thread to run
-
-	const u64 frameEndTime = TimerGlobal.GetElapsed_ms();
-	const u64 frameTime = frameEndTime - frameStartTime;
-
-	float fps_to_rate = (fps_limit == 900) ? 0 : (1000.f / fps_limit);
-	u32 updateDelta = 1; // 1 ms
-
-	if (Device.Paused() || bMainMenuActive())
-		updateDelta = 2; // 16 ms, ~60 FPS max while paused
-	else
-		updateDelta = fps_to_rate;
-
-	if (fps_to_rate != 0)
-	{
-		if (frameTime < updateDelta)
-			Sleep(((DWORD)(updateDelta - frameTime)));
-	}
-
 	mt_csLeave.Enter			();
 	mt_csEnter.Leave			();
 	Sleep						(0);
