@@ -79,7 +79,20 @@ void CMMSound::music_Play(bool restore)
 
 	m_music_stereo.stop();
 
-	int i = (restore && m_last_track >= 0) ? m_last_track : Random.randI(m_play_list.size());
+	int i;
+if (restore && m_last_track >= 0)
+{
+	i = m_last_track;
+}
+else if (m_play_list.size() > 1)
+{
+	do { i = Random.randI(m_play_list.size()); }
+	while (i == m_last_track);
+}
+else
+{
+	i = Random.randI(m_play_list.size());
+}
 	m_last_track = i;
 
 	string_path		_path;
@@ -87,7 +100,7 @@ void CMMSound::music_Play(bool restore)
 	VERIFY			(FS.exist("$game_sounds$", _path ));	
 
 	m_music_stereo.create(_path,st_Music,sg_SourceType);
-	m_music_stereo.play(nullptr, sm_Intro|sm_Looped);
+	m_music_stereo.play(nullptr, sm_Intro);
 
 if (restore)
 {

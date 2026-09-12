@@ -64,7 +64,11 @@ void CSoundRender_Emitter::update(float dt)
 			const WAVEFORMATEX& wfx = source()->m_wformat;
 			u32 bytes_per_sec = wfx.nSamplesPerSec * (wfx.wBitsPerSample/8) * wfx.nChannels;
 			if (bytes_per_sec)
-				fTimeStarted			   -= float(m_start_cursor) / float(bytes_per_sec);
+			{
+				float offset_sec		 = float(m_start_cursor) / float(bytes_per_sec);
+				fTimeStarted			-= offset_sec;
+				fTimeToStop				-= offset_sec;   // <-- новая строка
+			}
 		}
 		m_start_cursor						= 0;
 		SoundRender->i_start			(this);
