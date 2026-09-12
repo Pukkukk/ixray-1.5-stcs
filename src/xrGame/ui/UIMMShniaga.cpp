@@ -93,6 +93,11 @@ void CUIMMShniaga::InitShniaga(CUIXml& xml_doc, LPCSTR path)
 
 void CUIMMShniaga::OnDeviceReset()
 {
+	if (m_sound)
+	{
+		m_sound->SaveCursorBeforeReset();
+		m_sound->music_Play(true);
+	}
 }
 
 extern CActor*		g_actor;
@@ -224,13 +229,13 @@ void CUIMMShniaga::Update(){
 
 		Fvector2 pos = m_shniaga->GetWndPos();
 		pos.y = this->pos(m_origin, m_destination, Device.dwTimeContinual - m_start_time);
-		m_shniaga->SetWndPos(pos);		
+		m_shniaga->SetWndPos(pos);
 	}
 	else
 		ProcessEvent(E_Stop);
 
 	if (m_start_time > Device.dwTimeContinual - m_run_time*10/100)
-		ProcessEvent(E_Finilize);
+		ProcessEvent(E_Finalize);
 
 	ProcessEvent(E_Update);
 		
@@ -350,7 +355,7 @@ void CUIMMShniaga::ProcessEvent(EVENT ev){
 				m_flags.set(fl_SoundFinalized,	FALSE);
 				m_flags.set(fl_MovingStoped,	FALSE);
 			}	break;
-		case E_Finilize:
+		case E_Finalize:
 			if (!m_flags.test(fl_SoundFinalized))
 			{
 				m_sound->whell_Click();

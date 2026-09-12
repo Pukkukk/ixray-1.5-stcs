@@ -3,7 +3,7 @@
 #include "MMSound.h"
 #include "xrUIXmlParser.h"
 
-CMMSound::CMMSound()
+CMMSound::CMMSound()  : m_saved_cursor(0), m_last_track(-1)
 {}
 
 CMMSound::~CMMSound()
@@ -43,7 +43,7 @@ void CMMSound::whell_Play()
 {
 
 	if (m_whell._handle() && !m_whell._feedback())
-		m_whell.play(NULL, sm_Looped | sm_2D);
+		m_whell.play(NULL, sm_Looped | sm_Intro);
 
 }
 
@@ -56,7 +56,7 @@ void CMMSound::whell_Click()
 {
 
    	if (m_whell_click._handle())
-		m_whell_click.play(NULL, sm_2D);
+		m_whell_click.play(NULL, sm_Intro);
 
 }
 
@@ -64,27 +64,48 @@ void CMMSound::whell_UpdateMoving(float frequency){
 	m_whell.set_frequency(frequency);
 }
 
-void CMMSound::music_Play()
+void CMMSound::SaveCursorBeforeReset()
+{
+	if (CSound_emitter* em = m_music_stereo._feedback())
+		m_saved_cursor = em->get_cursor(true);
+}
+
+void CMMSound::music_Play(bool restore)
 {
 	if (m_play_list.empty())
 		return;
 
-	int i = Random.randI(m_play_list.size());
+	u32 saved_cursor = restore ? m_saved_cursor : 0;
+
+	m_music_stereo.stop();
+
+	int i = (restore && m_last_track >= 0) ? m_last_track : Random.randI(m_play_list.size());
+	m_last_track = i;
 
 	string_path		_path;
 	strconcat		(sizeof(_path),_path, m_play_list[i].c_str(), ".ogg");
 	VERIFY			(FS.exist("$game_sounds$", _path ));	
 
 	m_music_stereo.create(_path,st_Music,sg_SourceType);
-    m_music_stereo.play(NULL, sm_2D);
+	m_music_stereo.play(nullptr, sm_Intro|sm_Looped);
+
+if (restore)
+{
+	if (CSound_emitter* em = m_music_stereo._feedback())
+		em->set_start_cursor(saved_cursor);   // было set_cursor
 }
+}
+
+
 
 void CMMSound::music_Update()
 {
 	if (Device.Paused()) return;
 
 	if ( 0==m_music_stereo._feedback() )
+	{
 		music_Play();
+	}
 }
 
 void CMMSound::music_Stop()

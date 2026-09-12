@@ -13,7 +13,8 @@ public:
 	void 			whell_Click	();
 	void 			whell_UpdateMoving(float frequency);
 
-	void 			music_Play	();
+	void 			music_Play	(bool restore = false);
+	void 	        SaveCursorBeforeReset();
 	void 			music_Stop	();
 	void 			music_Update();
 
@@ -23,9 +24,13 @@ protected:
 	IC	bool		check_file			(LPCSTR fname);
 
 	ref_sound		m_music_stereo;
+	ref_sound       m_music_sources[2];
 
 	ref_sound		m_whell;
 	ref_sound		m_whell_click;
 	bool			m_bRandom;
 	xr_vector<xr_string>m_play_list;
+
+	u32		m_saved_cursor;
+    int		m_last_track;
 };

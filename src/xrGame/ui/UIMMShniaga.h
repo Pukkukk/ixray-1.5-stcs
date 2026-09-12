@@ -29,7 +29,7 @@ protected:
 	typedef enum {
 		E_Begin = 0,
 		E_Update,
-		E_Finilize,
+		E_Finalize,
 		E_Stop
 	} EVENT;
 
