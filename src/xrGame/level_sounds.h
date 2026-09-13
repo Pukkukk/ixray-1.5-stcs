@@ -33,7 +33,7 @@ public:
 	void			Load			(LPCSTR fn, LPCSTR params);
 	BOOL			in				(u32 game_time);
 	BOOL			IsPlaying		();
-	void			Play			();
+	void			Play			(u32 start_cursor = 0);
 	void			Stop			();
 	void			SetVolume		(float volume);
 };
@@ -51,11 +51,15 @@ class CLevelSoundManager
 	MusicTrackVec	m_MusicTracks;
 	u32				m_NextTrackTime;
 	int				m_CurrentTrack;
+
+	int				m_PendingResumeTrack	= -1;   // днаюбкемн
+	u32				m_PendingResumeCursor	= 0;    // днаюбкемн
 public:
 					CLevelSoundManager();
 	void			Load			();
 	void			Unload			();
 	void __stdcall	Update			();
+	void			RestartMusic	();
 };
 
 #endif

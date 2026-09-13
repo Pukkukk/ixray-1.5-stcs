@@ -357,6 +357,7 @@ protected:
 public:
 	CMapManager&			MapManager					() const 	{return *m_map_manager;}
 	CGameTaskManager&		GameTaskManager				() const	{return *m_game_task_manager;}
+	CLevelSoundManager&		SoundManager				() const	{return *m_level_sound_manager;}   // ДОБАВЛЕНО
 	void					OnAlifeSimulatorLoaded		();
 	void					OnAlifeSimulatorUnLoaded	();
 	//работа с пулями

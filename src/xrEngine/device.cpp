@@ -523,15 +523,11 @@ void CRenderDevice::OnWM_Activate(WPARAM wParam, LPARAM lParam)
 		if (Device.b_is_Active)	
 		{
 			Device.seqAppActivate.Process(rp_AppActivate);
-#ifndef DEDICATED_SERVER
-#	ifdef INGAME_EDITOR
-			if (!editor())
-#	endif // #ifdef INGAME_EDITOR
-				ShowCursor			(FALSE);
-#endif // #ifndef DEDICATED_SERVER
+			Device.Pause				(FALSE, TRUE, TRUE, "wm_activate");   // bTimer=TRUE
 		}else	
 		{
 			Device.seqAppDeactivate.Process(rp_AppDeactivate);
+			Device.Pause				(TRUE, TRUE, TRUE, "wm_deactivate");  // bTimer=TRUE
 			ShowCursor				(TRUE);
 		}
 	}

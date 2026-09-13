@@ -103,9 +103,13 @@ BOOL SMusicTrack::in(u32 game_time)
 	return res;
 }
 
-void SMusicTrack::Play()
+void SMusicTrack::Play(u32 start_cursor)
 {
 	m_SourceStereo.play_at_pos	(0,Fvector().set(0.0f,0.0f,0.0f), sm_Intro);
+
+	if (start_cursor && m_SourceStereo._feedback())
+		m_SourceStereo._feedback()->set_start_cursor(start_cursor);
+
 	SetVolume					(1.0f);
 }
 
@@ -199,6 +203,31 @@ void CLevelSoundManager::Update()
 	{
 		if (m_CurrentTrack<0 && engine_time>m_NextTrackTime)
 		{
+	// приоритетно: если есть незавершЄнный трек, прерванный сворачиванием окна Ч продолжить его
+	if (m_PendingResumeTrack>=0 && m_PendingResumeTrack<(int)m_MusicTracks.size() &&
+	m_MusicTracks[m_PendingResumeTrack].in(game_time))
+{
+	m_CurrentTrack		= m_PendingResumeTrack;
+	SMusicTrack& T		= m_MusicTracks[m_CurrentTrack];
+
+	Msg("!!! RESUME MUSIC: track_idx=%d cursor=%u feedback_before_play=%d",
+		m_PendingResumeTrack,
+		m_PendingResumeCursor,
+		T.m_SourceStereo._feedback() ? 1 : 0);   // ѕ–ќ¬≈–ќ„Ќќ≈ —ќќЅў≈Ќ»≈
+
+	T.Play				(m_PendingResumeCursor);
+
+	Msg("!!! RESUME MUSIC: after Play, feedback=%d, IsPlaying=%d",
+		T.m_SourceStereo._feedback() ? 1 : 0,
+		T.IsPlaying());   // ≈ў® ќƒЌќ Ч сразу после Play
+
+	m_PendingResumeTrack	= -1;
+	m_PendingResumeCursor	= 0;
+}
+	else
+	{
+		m_PendingResumeTrack	= -1;	// протух/недействителен Ч сбрасываем и идЄм по старой логике
+
 			U32Vec				indices;
 			for (u32 k=0; k<m_MusicTracks.size(); ++k)
 			{
@@ -208,11 +237,6 @@ void CLevelSoundManager::Update()
 				
 				if( T.in(game_time) )
 					indices.push_back	(k);
-/*
-				if ((0==T.m_ActiveTime.x) && (0==T.m_ActiveTime.y)||
-					((int(game_time)>=T.m_ActiveTime.x)&&(int(game_time)<T.m_ActiveTime.y)))
-					indices.push_back	(k);
-*/
 			}
 			if (!indices.empty())
 			{
@@ -227,18 +251,25 @@ void CLevelSoundManager::Update()
 				m_NextTrackTime	= engine_time+10000; // next check after 10 sec
 			}
 		}
+}
+}
+	}
 		
+void CLevelSoundManager::RestartMusic()
+{
 		if (m_CurrentTrack>=0)
 		{
 			SMusicTrack& T		= m_MusicTracks[m_CurrentTrack];
-			if (!T.IsPlaying())
-			{ 
-				m_CurrentTrack		= -1;
-				m_NextTrackTime		= engine_time;
 
-				if (!((0==T.m_PauseTime.x)&&(0==T.m_PauseTime.y)))
-					m_NextTrackTime	+= Random.randI(T.m_PauseTime.x,T.m_PauseTime.y);
-			}
-		}
-	}
+		u32 saved_cursor = 0;
+		if (T.m_SourceStereo._feedback())
+			saved_cursor = T.m_SourceStereo._feedback()->get_cursor(true);
+
+		m_PendingResumeTrack	= m_CurrentTrack;
+		m_PendingResumeCursor	= saved_cursor;
+
+		T.Stop();                       // тот же самый deferred stop, что уже проверенно работал
+				m_CurrentTrack		= -1;
+		m_NextTrackTime			= Device.dwTimeGlobal;
+}
 }
