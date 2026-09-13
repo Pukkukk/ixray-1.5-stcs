@@ -64,6 +64,9 @@ void  dxRenderDeviceRender::Reset( HWND hWnd, u32 &dwWidth, u32 &dwHeight, float
 	Memory.mem_compact		();
 	ResourcesDeferredUnload();
 	HW.Reset(hWnd);
+#ifdef USE_DX10
+	if (!ps_r__texture_lazy)
+#endif
 	ResourcesDeferredUpload();
 
 #ifdef	USE_DX10
@@ -238,6 +241,7 @@ void dxRenderDeviceRender::overdrawEnd()
 
 void dxRenderDeviceRender::DeferredLoad(BOOL E)
 {
+	if (!E && ps_r__texture_lazy)	return;
 	Resources->DeferredLoad(E);
 }
 

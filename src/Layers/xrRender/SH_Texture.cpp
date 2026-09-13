@@ -58,6 +58,7 @@ void					CTexture::surface_set	(ID3DBaseTexture* surf )
 
 ID3DBaseTexture*	CTexture::surface_get	()
 {
+	if (!flags.bLoaded)	Load();
 	if (pSurface)		pSurface->AddRef	();
 	return pSurface;
 }
