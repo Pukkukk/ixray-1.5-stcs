@@ -591,8 +591,7 @@ void CCustomMonster::update_range_fov	(float &new_range, float &new_fov, float s
 
 	float	current_fog_density				= GamePersistent().Environment().CurrentEnv->fog_density	;	
 	// 0=no_fog, 1=full_fog, >1 = super-fog
-	// M.F.S. Team
-	float current_far_plane = GamePersistent().Environment().CurrentEnv->fog_far;
+	float	current_far_plane				= GamePersistent().Environment().CurrentEnv->far_plane	;	
 	// 300=standart, 50=super-fog
 
 	new_fov									= start_fov;
@@ -613,8 +612,6 @@ void CCustomMonster::update_range_fov	(float &new_range, float &new_fov, float s
 			)
 		)
 	;
-	// M.F.S. Team
-	clamp(new_range, 0.f, current_far_plane);
 }
 
 void CCustomMonster::eye_pp_s1			()

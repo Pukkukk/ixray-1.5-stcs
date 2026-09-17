@@ -20,11 +20,7 @@ bool CPHCall::obsolete()
 
 void CPHCall::check()
 {
-	// M.F.S. Team
-	if (m_condition && m_condition->is_true() && m_action)
-	{
-		m_action->run();
-	}
+	if(m_condition->is_true())m_action->run();
 }
 
 bool CPHCall::equal(CPHReqComparerV* cmp_condition,CPHReqComparerV* cmp_action)
