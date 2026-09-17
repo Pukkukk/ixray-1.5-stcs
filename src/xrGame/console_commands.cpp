@@ -1879,6 +1879,10 @@ void CCC_RegisterCommands()
 
 	CMD1(CCC_MemStats,			"stat_memory"			);
 	// game
+
+	psActorFlags.set(AF_DISCORD_RPC, true);
+	CMD3(CCC_Mask,			"discord_rpc",		&psActorFlags,	AF_DISCORD_RPC);
+
 	psActorFlags.set(AF_ALWAYSRUN, true);
 	CMD3(CCC_Mask,				"g_always_run",			&psActorFlags,	AF_ALWAYSRUN);
 	CMD1(CCC_GameDifficulty,	"g_game_difficulty"		);

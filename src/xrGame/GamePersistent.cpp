@@ -19,6 +19,8 @@
 #include "ActorEffector.h"
 #include "actor.h"
 #include "spectator.h"
+#include "Actor_Flags.h"
+#include "discord_rpc.h"
 
 #ifndef MASTER_GOLD
 #	include "custommonster.h"
@@ -138,6 +140,8 @@ void CGamePersistent::OnAppStart()
 
 void CGamePersistent::OnAppEnd	()
 {
+	DiscordRPC().Shutdown		();
+
 	if(m_pMainMenu->IsActive())
 		m_pMainMenu->Activate(false);
 
@@ -499,6 +503,8 @@ void CGamePersistent::OnFrame	()
 
 	if( !m_pMainMenu->IsActive() )
 		m_pMainMenu->DestroyInternal(false);
+
+	DiscordRPC().OnFrame		();
 
 	if(!g_pGameLevel)			return;
 	if(!g_pGameLevel->bReady)	return;
