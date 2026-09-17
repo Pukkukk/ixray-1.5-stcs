@@ -342,7 +342,13 @@ SPS*	CResourceManager::_CreatePS			(LPCSTR name)
 		_RELEASE		(pErrorBuf);
 		pConstants		= NULL;
 
-		R_ASSERT2(SUCCEEDED(hr), "Your video card doesn't meet game requirements\n\nPixel Shaders v1.1 or higher required");
+		if (FAILED(hr))
+			Msg			("Can't compile shader %s",name);
+
+		CHECK_OR_EXIT		(
+			!FAILED(hr),
+			make_string("Your video card doesn't meet game requirements\n\nPixel Shaders v1.1 or higher required")
+		);
 		return			_ps;
 	}
 }
