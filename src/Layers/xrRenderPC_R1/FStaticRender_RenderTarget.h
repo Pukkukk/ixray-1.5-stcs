@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../xrRender/ColorMapManager.h"
 
 class CRenderTarget		: public IRender_Target
 {
@@ -13,14 +12,11 @@ private:
 	u32					curHeight;
 
 	ref_rt				RT;
-	ref_rt				RT_color_map;
 	ref_rt				RT_distort;
 	IDirect3DSurface9*	ZB;
 
-	//	Can't implement in a single pass of a shader since
-	//	should be compiled only for the hardware that supports it.
-	ref_shader			s_postprocess[2];	//	Igor: 0 - plain, 1 - colormapped
-	ref_shader			s_postprocess_D[2];	//	Igor: 0 - plain, 1 - colormapped
+	ref_shader			s_postprocess;
+	ref_shader			s_postprocess_D;
 	ref_geom			g_postprocess;
 	
 	float				im_noise_time;
@@ -35,11 +31,6 @@ private:
 	float				param_noise_scale;
 	float				param_noise_fps;
 
-	//	Color mapping
-	float				param_color_map_influence;
-	float				param_color_map_interpolate;
-	ColorMapManager		color_map_manager;
-
 	u32					param_color_base;
 	u32					param_color_gray;
 	Fvector				param_color_add;
@@ -53,7 +44,6 @@ public:
 
 private:
 	BOOL				Create				()	;
-	bool				NeedColorMapping	()	;
 	BOOL				NeedPostProcess		()	;
 	BOOL				Available			()	{ return bAvailable; }
 	BOOL				Perform				()	;
@@ -81,10 +71,6 @@ public:
 	virtual void		set_color_base		(u32	f)		{ param_color_base=f;										}
 	virtual void		set_color_gray		(u32	f)		{ param_color_gray=f;										}
 	virtual void		set_color_add		(const Fvector &f)		{ param_color_add=f;								}
-
-	virtual void		set_cm_imfluence	(float	f)		{ param_color_map_influence = f;							}
-	virtual void		set_cm_interpolate	(float	f)		{ param_color_map_interpolate = f;							}
-	virtual void		set_cm_textures		(const shared_str &tex0, const shared_str &tex1) {color_map_manager.SetTextures(tex0, tex1);}
 
 	virtual u32			get_width			()				{ return curWidth;											}
 	virtual u32			get_height			()				{ return curHeight;											}

@@ -14,9 +14,8 @@
     #include "CameraManager.h"
 #endif /*_PP_EDITOR_*/
 
-#define POSTPROCESS_PARAMS_COUNT    11
-//.#define POSTPROCESS_FILE_VERSION    0x0001
-#define POSTPROCESS_FILE_VERSION    0x0002
+#define POSTPROCESS_PARAMS_COUNT    10
+#define POSTPROCESS_FILE_VERSION    0x0001
 
 #define POSTPROCESS_FILE_EXTENSION  ".ppe"
 
@@ -34,8 +33,7 @@ typedef enum _pp_params
     pp_noise_i              =   7,
     pp_noise_g              =   8,
     pp_noise_f              =   9,
-    pp_cm_influence         =   10,
-    pp_last					=	11,
+    pp_last					=	10,
     pp_force_dword          =   0x7fffffff
 } pp_params;
 
@@ -139,9 +137,9 @@ class CPostprocessAnimator
 #endif
 {
 protected:
-    SPPInfo											m_EffectorParams;
     CPostProcessParam                               *m_Params[POSTPROCESS_PARAMS_COUNT];
     shared_str										m_Name;
+    SPPInfo											m_EffectorParams;
 	float											m_factor;
 	float											m_dest_factor;
 	bool											m_bStop;
@@ -163,7 +161,6 @@ public:
 		void		SetCurrentFactor				(float f);
 		void		SetCyclic						(bool b)					{m_bCyclic=b;}
         float       GetLength                       ();
-        SPPInfo&	PPinfo							() {return m_EffectorParams;}
 #ifndef _PP_EDITOR_
 virtual	BOOL		Valid							();
 virtual	BOOL		Process							(SPPInfo &PPInfo);

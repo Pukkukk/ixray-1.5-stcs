@@ -63,8 +63,6 @@ public:
 			void		SetCyclic				(bool b)				{m_bCyclic=b;}
 	virtual	BOOL		Valid					();
 			float		GetAnimatorLength		()						{return fLifeTime;};
-
-	virtual bool		AbsolutePositioning		()						{return m_bAbsolutePositioning;}
 };
 
 class CAnimatorCamEffectorScriptCB :public CAnimatorCamEffector 
