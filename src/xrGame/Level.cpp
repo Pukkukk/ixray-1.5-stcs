@@ -731,14 +731,6 @@ void CLevel::OnFrame	()
 	// update static sounds
 	if(!g_dedicated_server)
 	{
-		static bool b_was_active = true;
-		if (Device.b_is_Active && !b_was_active)
-		{
-			// фокус только что восстановлен — принудительно перезапускаем фоновую музыку
-			m_level_sound_manager->RestartMusic();
-		}
-		b_was_active = Device.b_is_Active;
-
 		if (g_mt_config.test(mtLevelSounds)) 
 			Device.seqParallel.push_back	(fastdelegate::FastDelegate0<>(m_level_sound_manager,&CLevelSoundManager::Update));
 		else								
