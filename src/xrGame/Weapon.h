@@ -22,7 +22,6 @@ class CSE_ALifeItemWeaponAmmo;
 class CWeaponMagazined;
 class CParticlesObject;
 class CUIWindow;
-class CBinocularsVision;
 
 class CWeapon : public CHudItemObject,
 				public CShootingObject
@@ -226,8 +225,6 @@ protected:
 		Fvector4		m_ReloadDof;
 
 		BOOL			m_bUseDynamicZoom;
-		shared_str		m_sUseBinocularVision;
-		CBinocularsVision* m_pVision;
 
 	} m_zoom_params;
 	
