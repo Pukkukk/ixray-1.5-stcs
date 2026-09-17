@@ -49,11 +49,7 @@ IC	ref_sound *CSoundPlayer::CSoundCollection::add	(ESoundTypes type, LPCSTR name
 	ref_sound				*temp = xr_new<ref_sound>();
 	temp->create			(name,st_Effect,type);
 	if (!temp->_p)
-		// M.F.S. Team
-	{
-		xr_delete(temp);
 		return				(0);
-	}
 	return					(temp);
 }
 

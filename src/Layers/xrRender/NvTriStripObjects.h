@@ -67,8 +67,7 @@ public:
 	void Unref ()	{ 
 		if (--m_refCount == 0) 
 		{
-			// M.F.S. Team
-			delete this;
+			Memory.mem_free	(this);
 		}
 	}
 	

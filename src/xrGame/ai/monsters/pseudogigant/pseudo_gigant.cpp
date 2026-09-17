@@ -262,10 +262,7 @@ void CPseudoGigant::on_threaten_execute()
 	
 	CActor *pA = const_cast<CActor *>(smart_cast<const CActor *>(EnemyMan.get_enemy()));
 	if (!pA) return;
-	// M.F.S. Team
-	//GC: returning SoC hit conditions
-	if (pA->is_jump()) return;
-	//GC.
+	if ((pA->MovingState() & ACTOR_DEFS::mcJump) != 0) return;
 
 	float dist_to_enemy = pA->Position().distance_to(Position());
 	float			hit_value;
