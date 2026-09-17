@@ -85,6 +85,7 @@ public:
 										const	Fvector& direction,
 										float	start_speed,
 										float	power,
+										float	power_critical,
 										float	impulse,
 										u16		sender_id,
 										u16		sendersweapon_id,
@@ -230,7 +231,7 @@ public:
 	void 					Load				();
 	void 					Clear				();
 	void 					AddBullet			(const Fvector& position, const Fvector& direction, float starting_speed,
-												float power, float impulse, 
+												float power, float power_critical, float impulse, 
 												u16	sender_id, u16 sendersweapon_id,
 												ALife::EHitType e_hit_type, float maximum_distance, 
 												const CCartridge& cartridge, bool SendHit,bool AimBullet=false);

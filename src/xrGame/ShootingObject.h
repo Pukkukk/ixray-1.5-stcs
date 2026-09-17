@@ -61,6 +61,7 @@ protected:
 
 	float					fOneShotTime;
 	Fvector4				fvHitPower;
+	Fvector4				fvHitPowerCritical;
 	float					fHitImpulse;
 
 	//скорость вылета пули из ствола
