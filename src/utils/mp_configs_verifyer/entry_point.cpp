@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "configs_dump_verifyer.h"
 
+#pragma comment(lib, "crypto.lib")
+
 static char const * help_msg = 
 "Format: mp_configs_verifyer.exe [--file | --unpack | --io_filter | --help] [file name]\n"
 "Keys:\n"
@@ -152,7 +154,8 @@ void run_configs_verifyer_server()
 {
 	string_path	file_to_check;
 	file_to_check[0] = 0;
-	while (scanf_s("%s", file_to_check, sizeof(file_to_check)) == 1)
+	xr_string	tmp_stirng;
+	while (gets_s(file_to_check))
 	{
 		check_file(file_to_check);
 	}

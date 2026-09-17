@@ -146,14 +146,8 @@ int ProcessDifference()
 	}
 
 	string_path out_path;
-	string_path stats;
-	u32 total = target_file_list.size();
-	for(u32 i=0; i<total; ++i)
-	{
+	for(u32 i=0; i<target_file_list.size();++i){
 		LPCSTR fn = target_file_list[i];
-		xr_sprintf(stats,"%d of %d (%3.1f%%)", i, total, 100.0f*((float)i/(float)total));
-		SetConsoleTitle		(stats);
-
 		strconcat(sizeof(out_path),out_path,target_folder,"\\",fn);
 		VerifyPath(out_path);
 		IReader* r = FS_new->r_open("$target_folder$",fn);
