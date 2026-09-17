@@ -85,8 +85,7 @@ void CCustomMonster::SAnimState::Create(IKinematicsAnimated* K, LPCSTR base)
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CCustomMonster::CCustomMonster():
-     Feel::Vision(cast_game_object())
+CCustomMonster::CCustomMonster()
 {
 	m_sound_user_data_visitor	= 0;
 	m_memory_manager			= 0;

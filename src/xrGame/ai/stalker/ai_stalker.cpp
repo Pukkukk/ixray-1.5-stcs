@@ -709,8 +709,7 @@ void CAI_Stalker::UpdateCL()
 			sight().update			();
 		}
 
-		Exec_Look					(Device.fTimeDelta);
-		Exec_Visibility				();
+		Exec_Look					(client_update_fdelta());
 		STOP_PROFILE
 
 		START_PROFILE("stalker/client_update/step_manager")
