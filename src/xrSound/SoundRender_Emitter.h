@@ -55,7 +55,6 @@ public:
 	int							iPaused;
 	BOOL						bMoved;
 	BOOL						b2D;
-	bool						bIntro;
 	BOOL						bStopping;
 	BOOL						bRewind;
 	float						fTimeStarted;			// time of "Start"
@@ -64,11 +63,9 @@ public:
 
 	u32							marker;
 	void						i_stop					();
-	u32				m_start_cursor = 0;
 	
-void						    set_cursor				(u32 p) override;
-virtual void	               set_start_cursor(u32 p) override { m_start_cursor = p; }
-u32							    get_cursor				(bool b_absolute) const override;
+	void						set_cursor				(u32 p);
+	u32							get_cursor				(bool b_absolute) const;
 	void						move_cursor				(int offset);
 
 public:
@@ -78,7 +75,6 @@ public:
 
 	virtual BOOL				is_2D					()						{ return b2D; }
 	virtual void				switch_to_2D			();
-	virtual void				switch_to_Intro			() override;
 	virtual void				switch_to_3D			();
 	virtual void				set_position			(const Fvector &pos);
 	virtual void				set_frequency			(float scale)			{ VERIFY(_valid(scale));			p_source.freq=scale;}

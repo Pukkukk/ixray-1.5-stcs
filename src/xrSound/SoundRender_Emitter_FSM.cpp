@@ -26,8 +26,6 @@ void CSoundRender_Emitter::update(float dt)
 	float fTime			= SoundRender->fTimer_Value;
 	float fDeltaTime	= SoundRender->fTimer_Delta;
 
-		if (owner_data._get() && owner_data->s_type == st_Music)   // фильтр, чтобы не спамить лог другими звуками
-
 	VERIFY2(!!(owner_data) || (!(owner_data)&&(m_current_state==stStopped)),"owner");
 	VERIFY2(owner_data?*(int*)(&owner_data->feedback):1,"owner");
 
@@ -56,20 +54,14 @@ void CSoundRender_Emitter::update(float dt)
 		smooth_volume						= p_source.base_volume*p_source.volume*(owner_data->s_type==st_Effect?psSoundVEffects*psSoundVFactor:psSoundVMusic)*(b2D?1.f:occluder_volume);
 		e_current = e_target= *SoundRender->get_environment	(p_source.position);
 		if (update_culling(dt))	
-	{
-		m_current_state					= stPlaying;
-		set_cursor						(m_start_cursor);
-		if (m_start_cursor)
 		{
-			const WAVEFORMATEX& wfx = source()->m_wformat;
-			u32 bytes_per_sec = wfx.nSamplesPerSec * (wfx.wBitsPerSample/8) * wfx.nChannels;
-			if (bytes_per_sec)
-				fTimeStarted			   -= float(m_start_cursor) / float(bytes_per_sec);
+			m_current_state					= stPlaying;
+			set_cursor						(0);
+			SoundRender->i_start			(this);
 		}
-		m_start_cursor						= 0;
-		SoundRender->i_start			(this);
-	}
-	break;
+		else 
+			m_current_state					= stSimulating;
+		break;
 	case stStartingLoopedDelayed:
 		if (iPaused)						break;
 	    starting_delay						-= dt;
@@ -86,20 +78,13 @@ void CSoundRender_Emitter::update(float dt)
 		smooth_volume						= p_source.base_volume*p_source.volume*(owner_data->s_type==st_Effect?psSoundVEffects*psSoundVFactor:psSoundVMusic)*(b2D?1.f:occluder_volume);
 		e_current = e_target				= *SoundRender->get_environment	(p_source.position);
 		if (update_culling(dt))
-	{
-		m_current_state		  			= stPlayingLooped;
-		set_cursor						(m_start_cursor);
-		if (m_start_cursor)
 		{
-			const WAVEFORMATEX& wfx = source()->m_wformat;
-			u32 bytes_per_sec = wfx.nSamplesPerSec * (wfx.wBitsPerSample/8) * wfx.nChannels;
-			if (bytes_per_sec)
-				fTimeStarted			   -= float(m_start_cursor) / float(bytes_per_sec);
-		}
-		m_start_cursor						= 0;
-		SoundRender->i_start			(this);
-	}
-	break;
+			m_current_state		  			= stPlayingLooped;
+			set_cursor						(0);
+			SoundRender->i_start			(this);
+		}else 
+			m_current_state		  			= stSimulatingLooped;
+		break;
 	case stPlaying:
 		if (iPaused)
 		{
