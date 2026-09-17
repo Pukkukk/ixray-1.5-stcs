@@ -318,4 +318,14 @@
 	<string id="ui_st_kicked_by_battleye">
 		<text>был отключён защитой BattlEye:</text>
 	</string>
+	
+	<string id="ui_st_discord_in_menu">
+		<text>Главное меню</text>
+	</string>
+	<string id="ui_st_discord_exploring">
+		<text>Локация: </text>
+	</string>
+	<string id="ui_st_discord_no_task">
+		<text>Нет задания</text>
+	</string>
 </string_table>
